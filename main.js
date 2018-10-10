@@ -6,20 +6,25 @@ var delay = require('delay');
 var bodyParser = require('body-parser');
 var Promise = require('promise');
 
+var jsonData = new Object();
+var timer;
 
 app.get('/', function(req, res) {
-  var jsonData = new Object();
+  transPortInfoModule.setInfo(126.9722112, 37.2839068, 127.073139, 37.5502596);
 
-  transPortInfoModule.getInfo(126.9722112, 37.2839068, 127.073139, 37.5502596);
-
-  setTimeout(function(){
+  timer = setTimeout(function() { // 비동기함수 처리를 위한 대기
     jsonData = transPortInfoModule.getInfo();
-    res.send(jsonData);
-  },1000)
-
+    res.redirect('/test');
+  }, 700)
 })
 
+app.get('/test', function(req, res) {
 
+  clearTimeout(timer);// setTimeout 이벤트 제거
+
+  JSON.stringify(jsonData);
+  res.send(jsonData);
+})
 
 app.listen(3443, function() {
   console.log('Connected, 3443port!!');
