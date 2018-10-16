@@ -1,4 +1,3 @@
-var request = require('sync-request');
 var trafficTypeModule = require('./trafficTypeModule.js');
 
 module.exports.getJsonData = function(obj) {
