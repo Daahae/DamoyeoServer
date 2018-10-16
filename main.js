@@ -3,7 +3,7 @@ var app = express();
 var request = require('sync-request');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js'); // 모듈단위로 쪼개기
 var bodyParser = require('body-parser');
-//var tocfaAlgorithm = require("./TOCFA/build/Release/TOA.node");
+var tocfaAlgorithm = require("./TOCFA/build/Release/TOA.node");
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.text({ type: 'text/plain' }));
@@ -44,18 +44,21 @@ app.get('/algo', function(req, res) {
     latitude : 37.543802,
     longitude : 127.069145
   }
-
   sampleObj["userArr"].push(tmpObj);
-  sampleObj = JSON.stringify(sampleObj);
+  sampleObj = JSON.stringify(sampleObj); // 예시
 
-  //result = tocfaAlgorithm.TOCFA(sampleObj,transPortInfoModule.getTotalTime);
-  //res.send(result);
+  result = tocfaAlgorithm.TOCFA(sampleObj,transPortInfoModule.getTotalTime);
+  res.send(result);
 })
 
 app.post('/test',function(req, res) {
+  var jsonData;
+  jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, 37.5502596,127.073139);
+  res.send(jsonData);
+
   console.log("세영이의 테스트");
   console.log(req.body);
-  res.send("세영아 잘하자?");
+  res.send(jsonData);
 })
 
 
