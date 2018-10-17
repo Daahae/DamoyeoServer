@@ -5,7 +5,7 @@ module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, en
 
   var start = new Array(startLatitude, startLongitude);
   var end = new Array(endLatitude, endLongitude);
-  var obj = requestOdsayAPIModule.getData(start,end);
+  var obj = requestOdsayAPIModule.getData(start, end);
   var jsonData = transportJsonParseModule.getJsonData(obj);
   JSON.stringify(jsonData);
 

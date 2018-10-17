@@ -55,39 +55,24 @@ app.get('/algo', function(req, res) {
   res.send(sampleObj);
 })
 
-app.post('/test', function(req, res) {
+app.post('/sendTransportInfo', function(req, res) {
   var jsonData;
   var jsonTotalArray = new Object();
   jsonTotalArray.userArr = new Array();
   var reqArray = new Array();
+  reqArray = JSON.parse(req.body.userArr);
 
-  console.log(req.body.userArr);
-  reqArray = JSON.parse(req.body.userArr); // 이런 방식으로 통신
-
-  /*
-  reqArray = [{
-      "startLatitude": 37.2839068,
-      "startLongitude": 126.9722112,
-      "endLatitude": 37.5502596,
-      "endLongitude": 127.073139
-    },
-    {
-      "startLatitude": 37.2839068,
-      "startLongitude": 126.9722112,
-      "endLatitude": 37.543802,
-      "endLongitude": 127.069145
-    }
-  ];
-  */
+  console.log(reqArray);
 
   for (var i = 0; i < reqArray.length; i++) {
-    var start = new Array(reqArray[i].startLatitude, reqArray[i].startLongitude);
-    var end = new Array(reqArray[i].endLatitude, reqArray[i].endLongitude);
+    var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
+    var midInfo = new Array(37.2839068, 126.9722112); // midInfo 좌표
     console.log(start[0]);
 
-    jsonData = transPortInfoModule.getInfo(start[0], start[1], end[0], end[1]);
+    jsonData = transPortInfoModule.getInfo(start[0], start[1], midInfo[0], midInfo[1]);
     jsonTotalArray.userArr.push(jsonData);
   }
+
   res.send(jsonTotalArray);
 })
 
