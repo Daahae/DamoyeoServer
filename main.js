@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var request = require('sync-request');
-var transPortInfoModule = require('./transportLib/transportInfoModule.js'); // 모듈단위로 쪼개기
+var transPortInfoModule = require('./transportLib/transportInfoModule.js');
+
 var bodyParser = require('body-parser');
 //var tocfaAlgorithm = require("./TOCFA/build/Release/TOA.node");
 
@@ -56,23 +57,10 @@ app.get('/algo', function(req, res) {
 })
 
 app.post('/sendTransportInfo', function(req, res) {
-  var jsonData;
   var jsonTotalArray = new Object();
-  jsonTotalArray.userArr = new Array();
-  var reqArray = new Array();
-  reqArray = JSON.parse(req.body.userArr);
+  var midInfo = new Array(37.2839068, 126.9722112);// 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
 
-  console.log(reqArray);
-
-  for (var i = 0; i < reqArray.length; i++) {
-    var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-    var midInfo = new Array(37.2839068, 126.9722112); // midInfo 좌표
-    console.log(start[0]);
-
-    jsonData = transPortInfoModule.getInfo(start[0], start[1], midInfo[0], midInfo[1]);
-    jsonTotalArray.userArr.push(jsonData);
-  }
-
+  jsonTotalArray = usersToMidModule.getInfo(midInfo[0], midInfo[1]);
   res.send(jsonTotalArray);
 })
 

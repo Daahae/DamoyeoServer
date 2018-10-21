@@ -1,7 +1,7 @@
 var transportJsonParseModule = require('./transportJsonParseModule.js');
 var requestOdsayAPIModule = require('./requestOdsayAPIModule.js');
 
-module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, endLongitude) {
+module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, endLongitude) {// 최종 결과물 반환
 
   var start = new Array(startLatitude, startLongitude);
   var end = new Array(endLatitude, endLongitude);
