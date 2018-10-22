@@ -1,6 +1,6 @@
 var transPortInfoModule = require('./transportInfoModule.js');
 
-module.exports.getInfo = function(midInfoLat, midInfoLong) { // 입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
+module.exports.getInfo = function(req, midInfoLat, midInfoLong) { // 입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
   var jsonData;
   var jsonTotalArray = new Object();
   jsonTotalArray.userArr = new Array();
@@ -10,11 +10,10 @@ module.exports.getInfo = function(midInfoLat, midInfoLong) { // 입력받은 유
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-    console.log(start[0]);
-
     jsonData = transPortInfoModule.getInfo(start[0], start[1], midInfoLat, midInfoLong);
     jsonTotalArray.userArr.push(jsonData);
   }
+
   console.log(jsonTotalArray);
   return jsonTotalArray;
 }

@@ -5,12 +5,8 @@ var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var bodyParser = require('body-parser');
 //var tocfaAlgorithm = require("./TOCFA/build/Release/TOA.node");
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.text({
-  type: 'text/plain'
-}));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.text({type: 'text/plain'}));
 
 app.get('/', function(req, res) {
   var jsonData;
@@ -20,44 +16,13 @@ app.get('/', function(req, res) {
 
 
 app.get('/algo', function(req, res) {
-  var jsonData;
-  var result;
-  var tmpObj = new Object();
-  var sampleObj = new Object();
-  sampleObj.userArr = new Array();
-  //sampleObj = req.body;
-
-  tmpObj = {
-    latitude: 37.5502596,
-    longitude: 127.073139
-  }
-  sampleObj.userArr.push(tmpObj);
-  tmpObj = {
-    latitude: 37.546951,
-    longitude: 127.079647
-  }
-  sampleObj.userArr.push(tmpObj);
-  tmpObj = {
-    latitude: 37.542562,
-    longitude: 127.075385
-  }
-  sampleObj.userArr.push(tmpObj);
-  tmpObj = {
-    latitude: 37.543802,
-    longitude: 127.069145
-  }
-  sampleObj.userArr.push(tmpObj);
-  sampleObj = JSON.stringify(sampleObj); // 예시
-
-  //result = tocfaAlgorithm.TOCFA(sampleObj,transPortInfoModule.getTotalTime);
-  res.send(sampleObj);
 })
 
 app.post('/usersToMid', function(req, res) {
   var jsonTotalArray = new Object();
   var midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
 
-  jsonTotalArray = usersToMidModule.getInfo(midInfo[0], midInfo[1]);
+  jsonTotalArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(jsonTotalArray);
 })
 
