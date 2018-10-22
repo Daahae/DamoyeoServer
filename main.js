@@ -2,10 +2,9 @@ var express = require('express');
 var app = express();
 var request = require('sync-request');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
-
+var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var bodyParser = require('body-parser');
 //var tocfaAlgorithm = require("./TOCFA/build/Release/TOA.node");
-
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -26,8 +25,6 @@ app.get('/algo', function(req, res) {
   var tmpObj = new Object();
   var sampleObj = new Object();
   sampleObj.userArr = new Array();
-
-
   //sampleObj = req.body;
 
   tmpObj = {
@@ -56,9 +53,9 @@ app.get('/algo', function(req, res) {
   res.send(sampleObj);
 })
 
-app.post('/sendTransportInfo', function(req, res) {
+app.post('/usersToMid', function(req, res) {
   var jsonTotalArray = new Object();
-  var midInfo = new Array(37.2839068, 126.9722112);// 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
+  var midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
 
   jsonTotalArray = usersToMidModule.getInfo(midInfo[0], midInfo[1]);
   res.send(jsonTotalArray);

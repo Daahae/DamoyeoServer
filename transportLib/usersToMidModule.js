@@ -6,14 +6,15 @@ module.exports.getInfo = function(midInfoLat, midInfoLong) { // 입력받은 유
   jsonTotalArray.userArr = new Array();
   var reqArray = new Array();
   reqArray = JSON.parse(req.body.userArr);
-  console.log(reqArray);
+  //reqArray = [{"latitude": 37.5502596,"longitude": 127.073139},{"latitude": 37.5611284,"longitude": 127.03550500000006}];
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-    //var midInfo = new Array(37.2839068, 126.9722112); // midInfo 좌표
+    console.log(start[0]);
 
     jsonData = transPortInfoModule.getInfo(start[0], start[1], midInfoLat, midInfoLong);
     jsonTotalArray.userArr.push(jsonData);
   }
+  console.log(jsonTotalArray);
   return jsonTotalArray;
 }
