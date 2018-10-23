@@ -14,6 +14,5 @@ module.exports.getInfo = function(req, midInfoLat, midInfoLong) { // 입력받�
     jsonTotalArray.userArr.push(jsonData);
   }
 
-  console.log(jsonTotalArray);
   return jsonTotalArray;
 }

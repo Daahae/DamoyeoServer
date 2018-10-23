@@ -7,9 +7,9 @@ module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, en
   var start = new Array(startLatitude, startLongitude);
   var end = new Array(endLatitude, endLongitude);
   var obj = requestOdsayAPIModule.getData(start, end);
-  if(!errorHandlingModule.isData(obj)){
+  if(!errorHandlingModule.isData(obj))
     return "Wrong Input";
-  }
+  
   var jsonData = transportJsonParseModule.getJsonData(obj);
   JSON.stringify(jsonData);
 
