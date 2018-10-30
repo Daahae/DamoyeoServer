@@ -1,6 +1,8 @@
 var transPortInfoModule = require('./transportInfoModule.js');
 
-module.exports.getInfo = function(req, midInfoLat, midInfoLong) { // 입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
+/*입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
+*/
+module.exports.getInfo = function(req, midInfoLat, midInfoLong) {
   var jsonData;
   var jsonTotalArray = new Object();
   jsonTotalArray.userArr = new Array();

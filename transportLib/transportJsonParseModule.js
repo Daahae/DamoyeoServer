@@ -1,10 +1,14 @@
 var trafficTypeModule = require('./trafficTypeModule.js');
 
+/* odsayAPI 서버에서 받아온 결과값  JSON 파싱해서 넘겨줌
+ */
 module.exports.getJsonData = function(obj) {
+
   var totalJsonObject = new Object();
   var trafficJsonArray = new Array();
   var path = new Array();
   var subPathArr = new Array();
+
   var lane = new Array();
   var totalTime = 0;
   var timeBySubway = 0;
@@ -26,7 +30,7 @@ module.exports.getJsonData = function(obj) {
       startStation = subPathArr[i].startName;
       endStation = subPathArr[i].endName;
 
-      if (trafficTypeModule.trainType(trafficType)) { // 지하철 이용 시 호선 리턴
+      if (trafficTypeModule.subwayType(trafficType)) { // 지하철 이용 시 호선 리턴
         laneArr = subPathArr[i].lane;
         transportNumber = laneArr[0].name;
         timeBySubway += sectionTime;
