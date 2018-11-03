@@ -47,12 +47,12 @@ app.post('/usersToMid', function(req, res) {
 /* 파이어베이스 테스터
  */
 app.get('/firebase', function(req, res) {
-  writeLandmarkData("강남구", "강남역", "서울 강남구 강남대로 396","127.0959783");
+  writeLandmarkData("강남구", "강남역", "서울 강남구 강남대로 396","37.497942","127.0254323");
   res.send("DBConnection Success!");
 });
 
-function writeLandmarkData(sector, name, address, latitude, longitude) {
-  firebase.database().ref('landmark/' + sector).set({// 삽입 or 변경 set
+function writeLandmarkData(sector, name, address, latitude, longitude) { // 디비에 입력 or 수정
+  firebase.database().ref('landmark/' + sector).set({ // 삽입 or 변경 set
     name : name,
     address: address,
     latitude: latitude,
@@ -60,7 +60,7 @@ function writeLandmarkData(sector, name, address, latitude, longitude) {
   });
 }
 
-function writeUserData(userID, userPwd, userName, userAdrress) {
+function writeUserData(userID, userPwd, userName, userAdrress) { // 계정 관리
   firebase.database().ref('users/' + userID).set({
     userName: userName
   });
