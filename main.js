@@ -24,10 +24,10 @@ app.get('/', function(req, res) {
    안드로이드에서 유저들좌표를 전송받음(req)
 */
 app.post('/usersToMid', function(req, res) {
-  var jsonTotalArray = new Object();
+  var usersToMidArray = new Object();
   var midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
-  jsonTotalArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
-  res.send(jsonTotalArray);
+  usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
+  res.send(usersToMidArray);
 })
 
 /* 파이어베이스 테스터

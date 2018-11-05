@@ -33,16 +33,8 @@ module.exports.getLandmarkBySector = function(sector) {
   firebase.database().ref('landmark/' + sector).on('value', function(snapshot) {
     data = snapshot.val();
   });
-  while (!errorHandlingModule.isObjectData(data)) {
+  while (!errorHandlingModule.isObjectData(data)) { // 비동기 처리
     deasync.sleep(100);
   }
   return data;
-}
-
-/* 유저정보 삽입
- */
-module.exports.insertUserInfo = function insertUserData(userID, userPwd, userName, userAdrress) { // 계정 관리
-  firebase.database().ref('users/' + userID).set({
-    userName: userName
-  });
 }
