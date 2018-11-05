@@ -15,7 +15,12 @@ app.use(bodyParser.text({
 
 app.get('/', function(req, res) {
   var jsonData;
+  var landmarkObject = new Object();
+  var midInfo = new Array(37.2839068, 126.9722112);
   jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, 37.5502596, 127.073139);
+  landmarkObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
+  jsonData.landmark = landmarkObject;
+
   res.send(jsonData);
 })
 
@@ -25,8 +30,11 @@ app.get('/', function(req, res) {
 */
 app.post('/usersToMid', function(req, res) {
   var usersToMidArray = new Object();
+  var landmarkObject = new Object();
   var midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
+  landmarkObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
   usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
+
   res.send(usersToMidArray);
 })
 
@@ -34,7 +42,7 @@ app.post('/usersToMid', function(req, res) {
  */
 app.get('/firebase', function(req, res) {
   var testObject = new Object();
-  testObject = landmarkModule.getLandmarkBySector('강남구');
+  testObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
   res.send(testObject);
 });
 
