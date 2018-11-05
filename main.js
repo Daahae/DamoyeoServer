@@ -1,25 +1,10 @@
 var express = require('express');
 var app = express();
-var request = require('sync-request');
+var errorHandlingModule = require('./transportLib/errorHandlingModule.js');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
+var landmarkModule = require('./firebaseLib/landmarkModule.js');
 var bodyParser = require('body-parser');
-var firebase = require('firebase');
-var deasync = require('deasync');
-var errorHandlingModule = require('./transportLib/errorHandlingModule.js');
-var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
-var firebaseDatabase; //파이어베이스 db 모듈 전역변수
-
-firebase.initializeApp({ // 파이어베이스 기본설정
-  apiKey: "AIzaSyCFOiU8gSADDkD6erWu17kviX-fUNquQWA",
-  authDomain: "daamoyeo.firebaseapp.com",
-  databaseURL: "https://daamoyeo.firebaseio.com",
-  projectId: "daamoyeo",
-  storageBucket: "daamoyeo.appspot.com",
-  messagingSenderId: "3230588147"
-});
-firebaseDatabase = firebase.database();
-
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -49,37 +34,9 @@ app.post('/usersToMid', function(req, res) {
  */
 app.get('/firebase', function(req, res) {
   var testObject = new Object();
-  testObject = getLandmarkData('강남구');
+  testObject = landmarkModule.getLandmarkBySector('강남구');
   res.send(testObject);
 });
-
-/* 랜드마크 정보 입력, 수정
- */
-function insertLandmarkData(sector, name, address, latitude, longitude) {
-  firebase.database().ref('landmark/' + sector).set({ // 삽입 or 변경 set
-    name: name,
-    address: address,
-    latitude: latitude,
-    longitude: longitude
-  });
-}
-
-/* 구에 해당하는 정보 검색
- */
-function getLandmarkData(sector) { // sectror = 구
-  var data = new Object();
-  firebase.database().ref('landmark/' + sector).on('value',function(snapshot){
-    data = snapshot.val();
-  });
-  while(!errorHandlingModule.isObjectData(data)) {deasync.sleep(50);}
-  return data;
-}
-
-function insertUserData(userID, userPwd, userName, userAdrress) { // 계정 관리
-  firebase.database().ref('users/' + userID).set({
-    userName: userName
-  });
-}
 
 app.listen(3443, function() {
   console.log('Connected, 3443port!!');

@@ -14,7 +14,7 @@ module.exports.getJsonData = function(obj) {
   var timeBySubway = 0;
   var timeByBus = 0;
   var timeByWalk = 0;
-  var subwayCityCode; // 도착지의 도시명을 알아내기 위함
+  var subwayCityCode; 
 
   obj = obj.result;
   path = obj.path;
