@@ -7,11 +7,11 @@ var errorHandlingModule = require('./errorHandlingModule.js');
 module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, endLongitude) {
   var start = new Array(startLatitude, startLongitude);
   var end = new Array(endLatitude, endLongitude);
-  var obj = requestOdsayAPIModule.getData(start, end);
+  var obj = requestOdsayAPIModule.getData(start, end); // 오디세이 API에 교통정보 요청
   if (!errorHandlingModule.isData(obj))
     return "No Data";
 
-  var jsonData = transportJsonParseModule.getJsonData(obj);
+  var jsonData = transportJsonParseModule.getJsonData(obj); // 요청받은 데이터 파싱
   JSON.stringify(jsonData);
 
   return jsonData;
