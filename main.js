@@ -5,6 +5,8 @@ var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var bodyParser = require('body-parser');
 var firebase = require('firebase');
+var deasync = require('deasync');
+var errorHandlingModule = require('./transportLib/errorHandlingModule.js');
 var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
 var firebaseDatabase; //파이어베이스 db 모듈 전역변수
 
@@ -39,7 +41,6 @@ app.get('/', function(req, res) {
 app.post('/usersToMid', function(req, res) {
   var jsonTotalArray = new Object();
   var midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표
-
   jsonTotalArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(jsonTotalArray);
 })
@@ -47,20 +48,34 @@ app.post('/usersToMid', function(req, res) {
 /* 파이어베이스 테스터
  */
 app.get('/firebase', function(req, res) {
-  writeLandmarkData("강남구", "강남역", "서울 강남구 강남대로 396","37.497942","127.0254323");
-  res.send("DBConnection Success!");
+  var testObject = new Object();
+  testObject = getLandmarkData('강남구');
+  res.send(testObject);
 });
 
-function writeLandmarkData(sector, name, address, latitude, longitude) { // 디비에 입력 or 수정
+/* 랜드마크 정보 입력, 수정
+ */
+function insertLandmarkData(sector, name, address, latitude, longitude) {
   firebase.database().ref('landmark/' + sector).set({ // 삽입 or 변경 set
-    name : name,
+    name: name,
     address: address,
     latitude: latitude,
     longitude: longitude
   });
 }
 
-function writeUserData(userID, userPwd, userName, userAdrress) { // 계정 관리
+/* 구에 해당하는 정보 검색
+ */
+function getLandmarkData(sector) { // sectror = 구
+  var data = new Object();
+  firebase.database().ref('landmark/' + sector).on('value',function(snapshot){
+    data = snapshot.val();
+  });
+  while(!errorHandlingModule.isObjectData(data)) {deasync.sleep(50);}
+  return data;
+}
+
+function insertUserData(userID, userPwd, userName, userAdrress) { // 계정 관리
   firebase.database().ref('users/' + userID).set({
     userName: userName
   });
