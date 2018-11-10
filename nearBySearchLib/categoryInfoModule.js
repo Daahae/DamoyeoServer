@@ -2,7 +2,7 @@
  */
 
 var search = require('./NearbySearch.js');
-var getInfo = require('./GetRemainInfo.js');
+//var getInfo = require('./GetRemainInfo.js');
 
 
 /*
@@ -21,8 +21,6 @@ int RESTAURANT = 50;
 module.exports.getInfo = function(req, midLat, midLng) { // 미완
   var reqObject = new Object();
   var resObject = new Object();
-
-
   reqObject = JSON.parse(req.body.userRequest); // b 소문자로
   resObject = main(midLat, midLng, 500, reqObject.type);
   return resObject;
