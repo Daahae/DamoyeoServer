@@ -4,6 +4,7 @@ var errorHandlingModule = require('./transportLib/errorHandlingModule.js');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
+var nearBySearchModule = require('./nearBySearchLib/categoryInfoModule.js');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
   extended: false
@@ -13,7 +14,7 @@ app.use(bodyParser.text({
 }));
 
 /* 테스트용 홈
-*/
+ */
 app.get('/', function(req, res) {
   var jsonData;
   var landmarkObject = new Object();
@@ -25,8 +26,8 @@ app.get('/', function(req, res) {
 })
 
 
-/* 유저들좌표에서 중앙지점까지의 교통정보
-   안드로이드에서 유저들좌표를 전송받음(req)
+/* 안드로이드에서 유저들좌표를 전송받음(req)
+   유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 전송
 */
 app.post('/usersToMid', function(req, res) {
   var usersToMidArray = new Object();
@@ -34,6 +35,14 @@ app.post('/usersToMid', function(req, res) {
   usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
 })
+
+/* 사용자의 카테고리 선택 정보를 받음
+   해당하는 장소정보 안드로이드로 전송 (Google place API)
+*/
+app.post('/midCategory', function(req, res) {
+
+})
+
 
 /* 파이어베이스 테스터
  */
