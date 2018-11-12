@@ -4,21 +4,23 @@ var landmarkModule = require('../firebaseLib/landmarkModule.js');
 /*입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
   + 랜드마크정보
  */
-module.exports.getInfo = function(req, midInfoLat, midInfoLong) {
+module.exports.getInfo = function(req, midLat, midLong) {
   var jsonData;
   var jsonTotalArray = new Object();
   var landmarkObject = new Object();
   jsonTotalArray.userArr = new Array();
   var reqArray = new Array();
   reqArray = JSON.parse(req.body.userArr);
+//  jsonTotalArray.midLat = midlat;
+//  jsonTotalArray.midLng = midLng;
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-    jsonData = transPortInfoModule.getInfo(start[0], start[1], midInfoLat, midInfoLong);
+    jsonData = transPortInfoModule.getInfo(start[0], start[1], midLat, midLong);
     jsonTotalArray.userArr.push(jsonData);
   }
 
-  landmarkObject = landmarkModule.getLandmarkByPosition(midInfoLat, midInfoLong); // 중심좌표 근처의 랜드마크
+  landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLong); // 중심좌표 근처의 랜드마크
   jsonTotalArray.landmark = landmarkObject;
 
   return jsonTotalArray;
