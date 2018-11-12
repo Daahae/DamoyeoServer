@@ -1,5 +1,7 @@
 var request = require('sync-request');
 
+/* 좌표를 받아 스트링 시 군구로 변환
+*/
 module.exports.getStringPos = function(lng, lat) {
   var clientID = "jwlrRrud1mg1tJBxdoSh";
   var secret = "AwskMzduBL";

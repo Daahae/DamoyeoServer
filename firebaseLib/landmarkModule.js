@@ -1,7 +1,10 @@
 var firebase = require('firebase');
 var deasync = require('deasync');
-var errorHandlingModule = require('../transportLib/errorHandlingModule.js');
+var errorHandlingModule = require('../errorHandlingModule.js');
 var midPosToStringModule = require('./midPosToStringModule.js');
+
+/* 파이어베이스를 사용하는 기능들
+*/
 
 firebase.initializeApp({ // 파이어베이스 기본설정
   apiKey: "AIzaSyCFOiU8gSADDkD6erWu17kviX-fUNquQWA",

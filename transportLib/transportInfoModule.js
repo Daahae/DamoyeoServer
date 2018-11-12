@@ -1,6 +1,6 @@
 var transportJsonParseModule = require('./transportJsonParseModule.js');
 var requestOdsayAPIModule = require('./requestOdsayAPIModule.js');
-var errorHandlingModule = require('./errorHandlingModule.js');
+var errorHandlingModule = require('../errorHandlingModule.js');
 
 /*두 좌표사이의 교통정보 반환
  */

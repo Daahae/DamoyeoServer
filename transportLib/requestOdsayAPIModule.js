@@ -1,5 +1,5 @@
 var request = require('sync-request');
-var errorHandlingModule = require('./errorHandlingModule.js');
+var errorHandlingModule = require('../errorHandlingModule.js');
 
 /*좌표와 함께 odsayAPI 서버에 교통정보 요청
  */

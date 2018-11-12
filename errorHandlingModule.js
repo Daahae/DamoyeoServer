@@ -1,8 +1,6 @@
 /* 에러처리
+   변수의 데이터 존재확인
  */
-
- /* 변수의 데이터 존재확인
-  */
 module.exports.isData = function(obj) {
   if (obj == undefined || obj.length == 0) {
     console.log("No Data");
@@ -23,7 +21,7 @@ module.exports.isRequestData = function(obj) {
 }
 
 /*object의 널값 확인
-  */
+ */
 module.exports.isObjectData = function(obj) {
   if (JSON.stringify(obj) == '{}') {
     console.log("Null Object");

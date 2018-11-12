@@ -8,7 +8,7 @@ var nearBySearchModule = require('./nearBySearchLib/categoryInfoModule.js');
 var bodyParser = require('body-parser');
 var request = require('sync-request');
 
-var midInfo = new Array(37.5637399,126.9838655); // 중간지점 전역변수선언 //37.5637399,126.9838655
+var midInfo = new Array(37.5637399,126.9838655); // 중간지점 전역변수선언 (명동) 
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -20,12 +20,14 @@ app.use(bodyParser.text({
 /* 테스트용 홈
  */
 app.get('/', function(req, res) {
-  var jsonData = new Object();
+  var jsonData;
   var landmarkObject = new Object();
-//  jsonData.midPos = {midInfo[0]+","+ midInfo[1]};
+  var midPos = new Object();
   jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, midInfo[0], midInfo[1]);
   landmarkObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
   jsonData.landmark = landmarkObject;
+  jsonData.midLat = midInfo[0];
+  jsonData.midLng = midInfo[1];
   res.send(jsonData);
 })
 
