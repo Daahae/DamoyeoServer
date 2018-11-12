@@ -1,6 +1,7 @@
 var firebase = require('firebase');
 var deasync = require('deasync');
 var errorHandlingModule = require('../transportLib/errorHandlingModule.js');
+var midPosToStringModule = require('./midPosToStringModule.js');
 
 firebase.initializeApp({ // 파이어베이스 기본설정
   apiKey: "AIzaSyCFOiU8gSADDkD6erWu17kviX-fUNquQWA",
@@ -24,17 +25,16 @@ module.exports.insertLandmarkInfo = function(sector, name, address, latitude, lo
 }
 
 /* 중심좌표를 받아 해당하는 랜드마크 반환
-  미완, 조건문추가
+
 */
-module.exports.getLandmarkByPosition = function(midLatitude, midLongitude) {
-  var midAddress = "경기 수원시 영통구 일월천로16번길 27"; // 중심좌표를 주소로 변환, 미완
-  var midAddressArr = midAddress.split(' ');
-  var landmarkData = getLandmarkBySector(midAddressArr[2]);
+module.exports.getLandmarkByPosition = function(midLat, midLng) {
+  var sigugun = midPosToStringModule.getStringPos(midLat, midLng);
+  var landmarkData = getLandmarkBySector(sigugun);
   return landmarkData;
 }
 
-/* 구에 해당하는 랜드마크 정보 검색
-    sectror = 구
+/* sector에 해당하는 랜드마크 정보 검색
+    sector = 시 or 구
  */
 function getLandmarkBySector(sector) {
   var data = new Object();
