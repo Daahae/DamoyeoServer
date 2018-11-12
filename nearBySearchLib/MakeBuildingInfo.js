@@ -13,8 +13,8 @@ var getInfo = require('./GetDetailInfo.js');
     ]
 }
 */
-exports.makeBuildingInfo = async function(lat, lng, radius, type) {
-    var jsonObject_From_Google = await search.nearbySearch(lat, lng, radius, type);
+exports.makeBuildingInfo = function(lat, lng, radius, type) {
+    var jsonObject_From_Google = search.nearbySearch(lat, lng, radius, type);
     var object = new Object();
     var item = 'buildingArr';
     object[item] = [];
@@ -23,7 +23,7 @@ exports.makeBuildingInfo = async function(lat, lng, radius, type) {
     var jsonObject_From_Naver = new Array();
     
     for(var i=0; i<jsonObject_From_Google.Info.length; i++) {
-        jsonObject_From_Naver[i] = await getInfo.getDetailInfo(jsonObject_From_Google.Info[i].name);        
+        jsonObject_From_Naver[i] = getInfo.getDetailInfo(jsonObject_From_Google.Info[i].name);        
     }
     
     for(var i=0; i<jsonObject_From_Google.Info.length; i++) {

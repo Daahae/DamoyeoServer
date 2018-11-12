@@ -6,7 +6,8 @@ var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
 var nearBySearchModule = require('./nearBySearchLib/categoryInfoModule.js');
 var bodyParser = require('body-parser');
-var midInfo; // 중간지점 전역변수선언
+var request = require('sync-request');
+var midInfo = new Array(37.2839068, 126.9722112); // 중간지점 전역변수선언
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -48,13 +49,28 @@ app.post('/midCategory', function(req, res) {
 })
 
 
-/* 파이어베이스 테스터
- */
-app.get('/firebase', function(req, res) {
-  var testObject = new Object();
-  testObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
-  res.send(testObject);
-});
+app.get('/geocode', function (req, res) {
+  var clientID = "jwlrRrud1mg1tJBxdoSh";
+  var secret = "AwskMzduBL";
+  var jsonArray = new Array();
+
+  midInfo[0] = 37.5501842;
+  midInfo[1] = 127.0705684;
+  var url = 'https://openapi.naver.com/v1/map/reversegeocode?query=' + midInfo[1]+','+midInfo[0];
+  var options = {
+      headers: {
+          'X-Naver-Client-Id': clientID,
+          'X-Naver-Client-Secret': secret
+      }
+  };
+
+  var resObject = request('GET', url, options);
+  var jsonObject = JSON.parse(resObject.getBody());
+  jsonArray = jsonObject.result.items[0].addrdetail.sigugun;
+  var midAddressArr = jsonArray.split(' ');
+
+  res.send(midAddressArr[0]);
+ });
 
 
 app.listen(3443, function() {
