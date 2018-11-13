@@ -20,9 +20,18 @@ exports.getDetailInfo = function (name) {
 
     var res = request('GET', url, options);  
     var jsonObject = JSON.parse(res.getBody());
-
+    var object = new Object();
+    var item = 'buildingArr';
+    object[item] = [];
+    var data;
     
-    //return JSON.stringify(jsonObject);
-    return jsonObject;
+    data = {
+        buildingTel : jsonObject.items[0]["telephone"],
+        buildingDescription : jsonObject.items[0]["description"]
+    };
+
+    object[item].push(data);
+    
+    return object;
 }
 

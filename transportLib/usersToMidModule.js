@@ -12,8 +12,7 @@ module.exports.getInfo = function(req, midLat, midLong) {
   jsonTotalArray.userArr = new Array();
   var reqArray = new Array();
   reqArray = JSON.parse(req.body.userArr);
-//  jsonTotalArray.midLat = midlat;
-//  jsonTotalArray.midLng = midLng;
+  console.log(reqArray);
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
@@ -24,7 +23,7 @@ module.exports.getInfo = function(req, midLat, midLong) {
   landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLong); // 중심좌표 근처의 랜드마크
   jsonTotalArray.landmark = landmarkObject;
   jsonTotalArray.midLat = midLat;
-  jsonTotalArray.midLng = midLng;
+  jsonTotalArray.midLng = midLong;
 
   return jsonTotalArray;
 }

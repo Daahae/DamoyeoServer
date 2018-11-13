@@ -1,14 +1,14 @@
 var express = require('express');
 var app = express();
-var errorHandlingModule = require('./transportLib/errorHandlingModule.js');
+var errorHandlingModule = require('./errorHandlingModule.js');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
-var nearBySearchModule = require('./nearBySearchLib/categoryInfoModule.js');
+var nearBySearchModule = require('./nearBySearchLib/NearbySearch.js');
 var bodyParser = require('body-parser');
 var request = require('sync-request');
 
-var midInfo = new Array(37.5637399,126.9838655); // 중간지점 전역변수선언 (명동) 
+var midInfo = new Array(37.5637399,126.9838655); // 중간지점 전역변수선언 (명동)
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -37,7 +37,7 @@ app.get('/', function(req, res) {
 */
 app.post('/usersToMid', function(req, res) {
   var usersToMidArray = new Object();
-  midInfo = new Array(37.2839068, 126.9722112); // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
+  // 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
   usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
 })
