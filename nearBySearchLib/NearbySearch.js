@@ -1,5 +1,7 @@
-var getInfo = require('./GetInfoByCategory.js');
+
+var GetInfoByCategory = require('./GetInfoByCategory.js');
 var settingCategory = require('./SetCategory.js');
+var errorHandlingModule = require('../errorHandlingModule.js');
 var deasync = require('deasync');
 
 //lat, lng는 알고리즘에서 나온 결과값, radius는 고정값
@@ -12,9 +14,12 @@ exports.getInfo = function(req, lat, lng) { //위도, 경도, 반경, 타입(caf
 
 
     var category = settingCategory.setCategory(reqObject.type);
-    var jsonTest = getInfo.getInfoByCategory(lat, lng, 500, category );
+    var jsonTest = GetInfoByCategory.getInfoByCategory(lat, lng, 500, category );
     var jsonObject = JSON.parse(jsonTest);
-
+    while (!errorHandlingModule.isObjectData(jsonObject)) { // 비동기 처리
+      deasync.sleep(100);
+    }
+    console.log(jsonObject);
 
     return jsonObject;
 }
