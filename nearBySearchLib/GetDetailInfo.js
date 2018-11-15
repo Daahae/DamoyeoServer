@@ -3,35 +3,39 @@
 
 var request = require('sync-request');
 
-exports.getDetailInfo = function (name) {
-    //var clientID = "7U_JXot2fhHzfndW5kB7";
-    //var secret = "tC6lfWVZvO";
+exports.getDetailInfo = function(req) {
+  var reqObject = new Object();
+  console.log(req.body);
+  reqObject = JSON.parse(req.body.buildingRequest);
 
-    var clientID = "jwlrRrud1mg1tJBxdoSh";
-    var secret = "AwskMzduBL";
-    
-    var url = `https://openapi.naver.com/v1/search/local.json?query=` + encodeURI(name) + `&display=1&start=1`;
-    var options = {
-        headers: {
-            'X-Naver-Client-Id': clientID,
-            'X-Naver-Client-Secret': secret
-        }
-    };
+  var clientID = "jwlrRrud1mg1tJBxdoSh";
+  var secret = "AwskMzduBL";
 
-    var res = request('GET', url, options);  
-    var jsonObject = JSON.parse(res.getBody());
-    var object = new Object();
-    var item = 'buildingArr';
-    object[item] = [];
-    var data;
-    
-    data = {
-        buildingTel : jsonObject.items[0]["telephone"],
-        buildingDescription : jsonObject.items[0]["description"]
-    };
+  var url = `https://openapi.naver.com/v1/search/local.json?query=` + encodeURI(reqObject.name) + `&display=1&start=1`;
+  var url2 = `https://openapi.naver.com/v1/map/reversegeocode?query=` + reqObject.lng + `,` + reqObject.lat;
+  var options = {
+    headers: {
+      'X-Naver-Client-Id': clientID,
+      'X-Naver-Client-Secret': secret
+    }
+  };
 
-    object[item].push(data);
-    
-    return object;
+  var res = request('GET', url, options);
+  var res2 = request('GET', url2, options);
+  var jsonObject = JSON.parse(res.getBody());
+  var jsonObject2 = JSON.parse(res2.getBody());
+
+  var object = new Object();
+
+  var data;
+
+  data = {
+    buildingTel: jsonObject.items[0]["telephone"],
+    buildingDescription: jsonObject.items[0]["description"],
+    buildingAddress: jsonObject2.result.items[0]["address"]
+  };
+
+  object = data;
+
+  return object;
 }
-

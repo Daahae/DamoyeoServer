@@ -5,6 +5,7 @@ var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
 var nearBySearchModule = require('./nearBySearchLib/NearbySearch.js');
+var nearBySearchDetailModule = require('./nearBySearchLib/GetDetailInfo.js');
 var bodyParser = require('body-parser');
 var request = require('sync-request');
 
@@ -51,6 +52,15 @@ app.post('/midCategory', function(req, res) {
   midCategoryObject = nearBySearchModule.getInfo(req, midInfo[0], midInfo[1]);
   res.send(midCategoryObject);
 })
+
+/* 카테고리의 장소에 대해 더 자세한 정보를 알고자 할 때
+*/
+app.post('/midDetailCategory', function(req, res) {
+  var midDetailCategoryObject = new Object();
+  midDetailCategoryObject = nearBySearchDetailModule.getDetailInfo(req, midInfo[0], midInfo[1]);
+  res.send(midDetailCategoryObject);
+})
+
 
 
 app.listen(3443, function() {

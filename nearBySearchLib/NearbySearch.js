@@ -15,12 +15,6 @@ exports.getInfo = function(req, lat, lng) { //위도, 경도, 반경, 타입(caf
     var jsonTest = getInfo.getInfoByCategory(lat, lng, 500, category );
     var jsonObject = JSON.parse(jsonTest);
 
-    while(JSON.stringify(jsonObject.Info) == "[]") {
-        console.log(jsonObject);
-        deasync.sleep(1500);
-        jsonTest = getInfo.getInfoByCategory(lat, lng, 500, category);
-        jsonObject = JSON.parse(jsonTest);
-    }
 
     return jsonObject;
 }
