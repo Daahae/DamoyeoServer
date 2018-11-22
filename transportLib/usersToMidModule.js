@@ -6,7 +6,7 @@ var midPosToStringModule = require('../firebaseLib/midPosToStringModule.js');
   + 중간좌표
   + 랜드마크정보
  */
-module.exports.getInfo = function(req, midLat, midLong) {
+module.exports.getInfo = function(req, midLat, midLng) {
   var jsonData;
   var jsonTotalArray = new Object();
   var landmarkObject = new Object();
@@ -18,15 +18,15 @@ module.exports.getInfo = function(req, midLat, midLong) {
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-    jsonData = transPortInfoModule.getInfo(start[0], start[1], midLat, midLong);
+    jsonData = transPortInfoModule.getInfo(start[0], start[1], midLat, midLng);
     jsonTotalArray.userArr.push(jsonData);
   }
 
-  landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLong); // 중심좌표 근처의 랜드마크
+  landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLng); // 중심좌표 근처의 랜드마크
   jsonTotalArray.landmark = landmarkObject;
   jsonTotalArray.midInfo.midLat = midLat;
-  jsonTotalArray.midInfo.midLng = midLong;
-  sonData.midInfo.address = midPosToStringModule.getStringPos(midInfo[0], midInfo[1]).result.items[0].address; //string 주소 추가
+  jsonTotalArray.midInfo.midLng = midLng;
+  jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가
 
   return jsonTotalArray;
 }
