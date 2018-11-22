@@ -4,6 +4,7 @@ var errorHandlingModule = require('./errorHandlingModule.js');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
+var midPosToStringModule = require('./firebaseLib/midPosToStringModule.js');
 var nearBySearchModule = require('./nearBySearchLib/NearbySearch.js');
 var nearBySearchDetailModule = require('./nearBySearchLib/GetDetailInfo.js');
 var bodyParser = require('body-parser');
@@ -26,9 +27,15 @@ app.get('/', function(req, res) {
   var midPos = new Object();
   jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, midInfo[0], midInfo[1]);
   landmarkObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
+  jsonData.midInfo = new Object();
   jsonData.landmark = landmarkObject;
-  jsonData.midLat = midInfo[0];
-  jsonData.midLng = midInfo[1];
+  jsonData.midInfo.midLat = midInfo[0];
+  jsonData.midInfo.midLng = midInfo[1];
+  jsonData.midInfo.address = midPosToStringModule.getStringPos(midInfo[0],midInfo[1]).result.items[0].address;
+  //console.log(midPosToStringModule.getStringPos(midInfo[0],midInfo[1]).result.items[0].address);
+
+
+
   res.send(jsonData);
 })
 
@@ -50,6 +57,7 @@ app.post('/usersToMid', function(req, res) {
 app.post('/midCategory', function(req, res) {
   var midCategoryObject = new Object();
   midCategoryObject = nearBySearchModule.getInfo(req, midInfo[0], midInfo[1]);
+  console.log(midCategoryObject);
   res.send(midCategoryObject);
 })
 

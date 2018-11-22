@@ -31,8 +31,10 @@ module.exports.insertLandmarkInfo = function(sector, name, address, latitude, lo
 
 */
 module.exports.getLandmarkByPosition = function(midLat, midLng) {
-  var sigugun = midPosToStringModule.getStringPos(midLat, midLng);
+  var stringPos = midPosToStringModule.getStringPos(midLat, midLng);
+  var sigugun = midPosToStringModule.getSiGuGun(stringPos);
   var landmarkData = getLandmarkBySector(sigugun);
+
   return landmarkData;
 }
 
