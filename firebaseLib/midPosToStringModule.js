@@ -1,6 +1,7 @@
 var request = require('sync-request');
 
 /* 좌표를 받아 스트링 시 군구로 변환
+    result 태그 안에 items[0]태그
 */
 module.exports.getStringPos = function(lng, lat) {
   var clientID = "jwlrRrud1mg1tJBxdoSh";
@@ -15,10 +16,10 @@ module.exports.getStringPos = function(lng, lat) {
 
   var resObject = request('GET', url, options);
   var jsonObject = JSON.parse(resObject.getBody());
-  //jsonArray = jsonObject.result.items[0].addrdetail.sigugun;
-  //var midAddressArr = jsonArray.split(' ');
+
   return jsonObject;
 }
+
 module.exports.getSiGuGun = function(jsonObject) {
   var jsonArray = new Array();
   jsonArray = jsonObject.result.items[0].addrdetail.sigugun;
