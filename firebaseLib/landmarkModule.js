@@ -4,7 +4,7 @@ var errorHandlingModule = require('../errorHandlingModule.js');
 var midPosToStringModule = require('./midPosToStringModule.js');
 
 /* 파이어베이스를 사용하는 기능들
-*/
+ */
 
 firebase.initializeApp({ // 파이어베이스 기본설정
   apiKey: "AIzaSyCFOiU8gSADDkD6erWu17kviX-fUNquQWA",
@@ -28,13 +28,11 @@ module.exports.insertLandmarkInfo = function(sector, name, address, latitude, lo
 }
 
 /* 중심좌표를 받아 해당하는 랜드마크 반환
-
 */
 module.exports.getLandmarkByPosition = function(midLat, midLng) {
   var stringPos = midPosToStringModule.getStringPos(midLat, midLng);
   var sigugun = midPosToStringModule.getSiGuGun(stringPos);
   var landmarkData = getLandmarkBySector(sigugun);
-
   return landmarkData;
 }
 

@@ -53,6 +53,7 @@ app.post('/midCategory', function(req, res) {
 })
 
 /* 카테고리의 장소에 대해 더 자세한 정보를 알고자 할 때
+   전화번호, 장소에 대한 간단한 설명 반환
  */
 app.post('/midDetailCategory', function(req, res) {
   var midDetailCategoryObject =  nearBySearchDetailModule.getDetailInfo(req, midInfo[0], midInfo[1]);
