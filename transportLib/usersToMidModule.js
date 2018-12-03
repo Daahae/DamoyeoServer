@@ -13,7 +13,9 @@ module.exports.getInfo = function(req, midLat, midLng) {
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
   var reqArray = new Array();
-  reqArray = JSON.parse(req.body.userArr);
+  console.log(req.body);
+  reqArray = JSON.parse(req.body);
+  reqArray = reqArray.userArr;
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표

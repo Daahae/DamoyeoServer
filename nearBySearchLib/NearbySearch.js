@@ -7,7 +7,6 @@ var deasync = require('deasync');
 
 exports.getInfo = function(req, lat, lng) { //위도, 경도, 반경, 타입(cafe, shopping_mall, bar 등등)
     var reqObject = new Object();
-    console.log(req.body);
     reqObject = JSON.parse(req.body.userRequest);// b 소문자로
 
 

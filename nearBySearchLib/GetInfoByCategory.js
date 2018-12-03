@@ -17,16 +17,15 @@ exports.getInfoByCategory = function (lat, lng, radius, type) {
       var key = "AIzaSyBjmChvkWBs63KJPrp5bu1dCY3H-ON3Idc";
       //var key = "AIzaSyCS6IE1uMTjMQ2WK4jwnTQE2pmDYgfUsPY";
       var url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=`+lat+`,`+lng+`&rankby=distance&type=`+ type +`&key=` + key + `&language=ko`;
-      
+
       var res = request('GET', url);
-      
+
       var jsonObject = JSON.parse(res.getBody());
-      console.log(jsonObject);
 
       var object = new Object();
       var item = 'buildingArr';
       object[item] = [];
-      
+
       var data;
       var distance;
 
@@ -53,7 +52,7 @@ exports.getInfoByCategory = function (lat, lng, radius, type) {
                   buildingRating : jsonObject.results[i].rating,
                   buildingDistance : parseInt(distance*1000)
                };
-            }  
+            }
          } else {
             data = {
                   buildingName : jsonObject.results[i].name,
@@ -75,7 +74,7 @@ exports.getInfoByCategory = function (lat, lng, radius, type) {
 
       if(JSON.stringify(object.buildingArr) == "[]")
          return JSON.stringify(object);
-      
+
       return JSON.stringify(object);
 }
 
@@ -83,15 +82,15 @@ exports.getInfoByCategory = function (lat, lng, radius, type) {
 function calculateDistance(lat1, lon1, lat2, lon2) {
       var R = 6371; // km
       var dLat = (lat2-lat1).toRad();
-      var dLon = (lon2-lon1).toRad(); 
+      var dLon = (lon2-lon1).toRad();
       var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
-              Math.sin(dLon/2) * Math.sin(dLon/2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+              Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
       var d = R * c;
       return d;
     }
-  
+
     Number.prototype.toRad = function() {
       return this * Math.PI / 180;
     }
