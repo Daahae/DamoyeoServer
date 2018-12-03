@@ -2,7 +2,6 @@ var request = require('sync-request');
 
 exports.getDetailInfo = function(req) {
     var reqObject = new Object();
-    console.log(req.body);
     reqObject = JSON.parse(req.body.buildingRequest);
 
     var clientID = "jwlrRrud1mg1tJBxdoSh";

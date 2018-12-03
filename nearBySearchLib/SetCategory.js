@@ -9,6 +9,7 @@ var AQUARIUM = 25;
 var CAFE = 30;
 var BAR = 40;
 var RESTAURANT = 50;
+var PARK = 60;
 
 exports.setCategory = function(type) {
     switch(type) {
@@ -41,6 +42,9 @@ exports.setCategory = function(type) {
             break;
         case RESTAURANT :
             var category = "restaurant";
+            break;
+        case PARK :
+            var category = "park";
             break;
     }
 

@@ -20,18 +20,32 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.text({
   type: 'text/plain'
 }));
+app.use(express.static('TOMSA'));
 
 /* 테스트용 홈
  */
 app.get('/', function(req, res) {
-  var jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, midInfo[0], midInfo[1]);
-  var landmarkObject = landmarkModule.getLandmarkByPosition(midInfo[0], midInfo[1]);
-  jsonData.midInfo = new Object();
-  jsonData.landmark = landmarkObject;
-  jsonData.midInfo.midLat = midInfo[0];
-  jsonData.midInfo.midLng = midInfo[1];
-  jsonData.midInfo.address = midPosToStringModule.getStringPos(midInfo[0], midInfo[1]).result.items[0].address;
-  res.send(jsonData);
+  var exec = require('child_process').execFile;
+
+  var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\":127.073053},\
+  {\"latitude\":37.545036,\"longitude\":127.054245},\
+  {\"latitude\":37.535413,\"longitude\":127.062388},\
+  {\"latitude\":37.531359,\"longitude\":127.083799}]}';
+  var resultObject;
+  try {
+    resultObject = exec('./TOMSA', [tmp], {encoding: "utf8"});
+    resultObject = JSON.parse(resultObject);
+  } catch (err) {
+      err.stdout;
+      err.stderr;
+      err.pid;
+      err.signal;
+      err.status;
+      // etc
+  }
+
+  console.log("A" +resultObject);
+  res.send(resultObject);
 })
 
 
@@ -48,7 +62,8 @@ app.post('/usersToMid', function(req, res) {
    해당하는 장소정보 안드로이드로 전송 (Google place API)
 */
 app.post('/midCategory', function(req, res) {
-  var midCategoryObject = nearBySearchModule.getInfo(req, midInfo[0], midInfo[1]);;
+  var midCategoryObject = nearBySearchModule.getInfo(req, midInfo[0], midInfo[1]);
+  console.log(midCategoryObject);
   res.send(midCategoryObject);
 })
 
