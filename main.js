@@ -55,13 +55,11 @@ app.get('/', function(req, res) {
 
 app.post('/usersToMid', function(req, res) {
   var jsonPath = path.join(__dirname, 'algorithm', 'TOMSA');
-  var reqArray = req.body;
-  var resultObject;
+  var reqArray = req.body.userArr;
   console.log(reqArray);
+  var resultObject;
   try {
-    resultObject = exec(jsonPath, [reqArray], {
-      encoding: "utf8"
-    });
+      resultObject = exec(jsonPath, [reqArray], {encoding: "utf8"});
     console.log("result : " + resultObject);
   } catch (err) {
       err.stdout;
@@ -77,7 +75,7 @@ app.post('/usersToMid', function(req, res) {
    해당하는 장소정보 안드로이드로 전송 (Google place API)
 */
 app.post('/midCategory', function(req, res) {
-  var midCategoryObject = nearBySearchModule.getInfo(req, midInfo[0], midInfo[1]);;
+  var midCategoryObject = nearBySearchModule.getInfo(req);
   res.send(midCategoryObject);
 })
 

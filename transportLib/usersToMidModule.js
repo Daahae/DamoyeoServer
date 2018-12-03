@@ -13,7 +13,7 @@ module.exports.getInfo = function(req, midLat, midLng) {
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
   var reqArray = new Array();
-  reqArray = JSON.parse(req.body);
+  reqArray = JSON.parse(req.body.userArr);
   reqArray = reqArray.userArr;
 
   for (var i = 0; i < reqArray.length; i++) {
