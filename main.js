@@ -9,6 +9,7 @@ var nearBySearchModule = require('./nearBySearchLib/NearbySearch.js');
 var nearBySearchDetailModule = require('./nearBySearchLib/GetDetailInfo.js');
 var bodyParser = require('body-parser');
 var request = require('sync-request');
+var exec = require('child_process').execFileSync;
 var path = require('path');
 
 /* 중간지점 전역변수선언 (명동) 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
@@ -53,19 +54,19 @@ app.get('/', function(req, res) {
 */
 
 app.post('/usersToMid', function(req, res) {
-  var exec = require('child_process').execFileSync;
   var jsonPath = path.join(__dirname, 'algorithm', 'TOMSA');
   var reqArray = req.body;
   var resultObject;
+  console.log(reqArray);
   try {
     resultObject = exec(jsonPath, [reqArray], {
       encoding: "utf8"
     });
     console.log("result : " + resultObject);
   } catch (err) {
-    err.stdout;
+      err.stdout;
+      console.log("Algorithm Error");
   }
-  //console.log("resultLat : "+ resultObject.latitude + "resultLng : " + resultObject.longitude);
   resultObject = JSON.parse(resultObject);
   var usersToMidArray = usersToMidModule.getInfo(req, resultObject.latitude, resultObject.longitude); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
