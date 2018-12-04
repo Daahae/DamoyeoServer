@@ -56,14 +56,11 @@ app.get('/', function(req, res) {
 app.post('/usersToMid', function(req, res) {
   var jsonPath = path.join(__dirname, 'algorithm', 'TOMSA');
   var reqArray = req.body.userArr;
-  console.log(reqArray);
   var resultObject;
   try {
       resultObject = exec(jsonPath, [reqArray], {encoding: "utf8"});
-    console.log("result : " + resultObject);
   } catch (err) {
-      err.stdout;
-      console.log("Algorithm Error");
+      res.send('{"error":"Algorithm Error"}');
   }
   resultObject = JSON.parse(resultObject);
   var usersToMidArray = usersToMidModule.getInfo(req, resultObject.latitude, resultObject.longitude); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행

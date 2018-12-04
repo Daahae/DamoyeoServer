@@ -8,8 +8,12 @@ module.exports.getInfo = function(startLatitude, startLongitude, endLatitude, en
   var start = new Array(startLatitude, startLongitude);
   var end = new Array(endLatitude, endLongitude);
   var obj = requestOdsayAPIModule.getData(start, end); // 오디세이 API에 교통정보 요청
-  if (!errorHandlingModule.isData(obj))
-    return "Reqeust error. Check if difference of position is under 700m.";
+  var errorObj = {
+    error : "Reqeust error. Check if difference of position is under 700m. 세영아 잘하자"
+  };
+if (!errorHandlingModule.isData(obj))
+    return errorObj;
+
 
   var jsonData = transportJsonParseModule.getJsonData(obj); // 요청받은 데이터 파싱
   JSON.stringify(jsonData);
