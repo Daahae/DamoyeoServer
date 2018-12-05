@@ -62,10 +62,7 @@ app.post('/usersToMid', function(req, res) {
       encoding: "utf8"
     });
   } catch (err) {
-    var errorObj = {
-      error: "Algorithm Error"
-    };
-    res.send(errorObj);
+    res.send(errorHandlingModule.returnErrMsg("Algorithm Error"));
   }
   resultObject = JSON.parse(resultObject);
   var usersToMidArray = usersToMidModule.getInfo(req, resultObject.latitude, resultObject.longitude); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
@@ -76,7 +73,8 @@ app.post('/usersToMid', function(req, res) {
    랜드마크를 목적지로 함
 */
 app.post('/midTransportInfo', function(req, res) {
-  var usersToMidArray = usersToMidModule.getInfo(req);
+  var usersToMidArray = usersToMidModule.getTransportInfo(req);
+  res.send(usersToMidArray);
 })
 
 /* 중간지점 알고리즘 사용 후,
@@ -93,7 +91,6 @@ app.post('/midCategory', function(req, res) {
  */
 app.post('/midDetailCategory', function(req, res) {
   var midDetailCategoryObject = nearBySearchDetailModule.getDetailInfo(req);
-  console.log(midDetailCategoryObject);
   res.send(midDetailCategoryObject);
 })
 

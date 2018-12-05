@@ -29,3 +29,12 @@ module.exports.isObjectData = function(obj) {
   } else
     return true;
 }
+
+/* 에러 메시지 json형태로 반환
+ */
+module.exports.returnErrMsg = function(msg) {
+  var errorObj = {
+    error: msg
+  };
+  return msg;
+}

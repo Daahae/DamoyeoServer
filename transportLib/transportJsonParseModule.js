@@ -14,7 +14,7 @@ module.exports.getJsonData = function(obj) {
   var timeBySubway = 0;
   var timeByBus = 0;
   var timeByWalk = 0;
-  var subwayCityCode; 
+  var subwayCityCode;
 
   obj = obj.result;
   path = obj.path;
