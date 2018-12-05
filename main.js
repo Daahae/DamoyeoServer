@@ -58,13 +58,25 @@ app.post('/usersToMid', function(req, res) {
   var reqArray = req.body.userArr;
   var resultObject;
   try {
-      resultObject = exec(jsonPath, [reqArray], {encoding: "utf8"});
+    resultObject = exec(jsonPath, [reqArray], {
+      encoding: "utf8"
+    });
   } catch (err) {
-      res.send('{"error":"Algorithm Error"}');
+    var errorObj = {
+      error: "Algorithm Error"
+    };
+    res.send(errorObj);
   }
   resultObject = JSON.parse(resultObject);
   var usersToMidArray = usersToMidModule.getInfo(req, resultObject.latitude, resultObject.longitude); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
+})
+
+/* 대중교통 경로정보
+   랜드마크를 목적지로 함
+*/
+app.post('/midTransportInfo', function(req, res) {
+  var usersToMidArray = usersToMidModule.getInfo(req);
 })
 
 /* 중간지점 알고리즘 사용 후,
@@ -80,7 +92,8 @@ app.post('/midCategory', function(req, res) {
    전화번호, 장소에 대한 간단한 설명 반환
  */
 app.post('/midDetailCategory', function(req, res) {
-  var midDetailCategoryObject = nearBySearchDetailModule.getDetailInfo(req, midInfo[0], midInfo[1]);
+  var midDetailCategoryObject = nearBySearchDetailModule.getDetailInfo(req);
+  console.log(midDetailCategoryObject);
   res.send(midDetailCategoryObject);
 })
 

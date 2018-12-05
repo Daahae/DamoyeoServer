@@ -31,7 +31,6 @@ exports.getInfoByCategory = function (lat, lng, radius, type) {
 
       for(var i=0; i<jsonObject.results.length; i++) {
             distance = calculateDistance(lat, lng, jsonObject.results[i].geometry.location.lat, jsonObject.results[i].geometry.location.lng);
-            console.log(distance);
          if(jsonObject.results[i].rating == null) {
             data = {
                buildingName : jsonObject.results[i].name,

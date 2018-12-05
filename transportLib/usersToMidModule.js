@@ -30,3 +30,22 @@ module.exports.getInfo = function(req, midLat, midLng) {
 
   return jsonTotalArray;
 }
+
+/* 랜드마크의 경로정보를 가져오기 위함
+*/
+module.exports.getTransportInfo = function(req) {
+  var jsonData;
+  var jsonTotalArray = new Object();
+  jsonTotalArray.userArr = new Array();
+  jsonTotalArray.midInfo = new Object();
+  var reqArray = new Array();
+  reqArray = JSON.parse(req.body.userArr);
+  reqArray = reqArray.userArr;
+
+  for (var i = 0; i < reqArray.length; i++) {
+    var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
+    jsonData = transPortInfoModule.getInfo(start[0], start[1], req.midLat, req.midLng);
+    jsonTotalArray.userArr.push(jsonData);
+  }
+  return jsonTotalArray;
+}
