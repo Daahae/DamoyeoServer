@@ -1,18 +1,22 @@
 var transPortInfoModule = require('./transportInfoModule.js');
 var landmarkModule = require('../firebaseLib/landmarkModule.js');
+var transportJsonParseModule = require('./transportJsonParseModule.js');
 var midPosToStringModule = require('../firebaseLib/midPosToStringModule.js');
 
 /*입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
   + 중간좌표
   + 랜드마크정보
  */
-module.exports.getInfo = function(req, midLat, midLng) {
+module.exports.getInfo = function(resultObject) {
   var jsonData;
   var jsonTotalArray = new Object();
   var landmarkObject = new Object();
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
   resultObject = JSON.parse(resultObject);
+  var midLat = resultObject.midInfo.latitude; // 에러
+  var midLng = resultObject.midInfo.longitude;
+
 
   console.log(midLat +" , ", midLng);
   var transportInfo = resultObject.transportInfo;
