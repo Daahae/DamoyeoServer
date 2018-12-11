@@ -5,6 +5,7 @@ var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
 var midPosToStringModule = require('./firebaseLib/midPosToStringModule.js');
+var transportJsonParseModule = require('./transportJsonParseModule.js');
 var nearBySearchModule = require('./nearBySearchLib/NearbySearch.js');
 var nearBySearchDetailModule = require('./nearBySearchLib/GetDetailInfo.js');
 var bodyParser = require('body-parser');
@@ -45,6 +46,12 @@ app.get('/', function(req, res) {
     err.stdout;
     console.log(err);
   }
+
+
+  
+  var jsonData = transportJsonParseModule.getJsonData(resultObject); // 요청받은 데이터 파싱
+  JSON.stringify(jsonData);
+
   res.send(resultObject);
 })
 
