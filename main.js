@@ -41,17 +41,24 @@ app.get('/', function(req, res) {
     resultObject = exec(jsonPath, [tmp], {
       encoding: "utf8"
     });
-    //resultObject = JSON.parse(resultObject);
   } catch (err) {
     err.stdout;
     console.log(err);
   }
 
-
-  
-  var jsonData = transportJsonParseModule.getJsonData(resultObject); // 요청받은 데이터 파싱
-  JSON.stringify(jsonData);
-
+  var jsonTotalArray = new Object();
+  var landmarkObject = new Object();
+  var midLat = resultObject.latitude;
+  var midLng = resultObject.longitude;
+  jsonTotalArray.userArr = new Array();
+  var transportInfo = resultObject.transportInfo;
+  for (var i = 0; i < transportInfo.length; i++) {
+    var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
+    jsonTotalArray.userArr.push(jsonData);
+  }
+  jsonTotalArray.midInfo.midLat = midLat;
+  jsonTotalArray.midInfo.midLng = midLng;
+  jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가
   res.send(resultObject);
 })
 
