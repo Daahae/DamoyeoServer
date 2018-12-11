@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname)));
  */
 app.get('/', function(req, res) {
   var exec = require('child_process').execFileSync;
-  var jsonPath = path.join(__dirname, 'algorithm', 'TOMSA');
+  var jsonPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
 
   var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\":127.073053},\
   {\"latitude\":37.545036,\"longitude\":127.054245},\
@@ -46,11 +46,14 @@ app.get('/', function(req, res) {
     console.log(err);
   }
 
+  resultObject = JSON.parse(resultObject);
   var jsonTotalArray = new Object();
   var landmarkObject = new Object();
-  var midLat = resultObject.latitude;
-  var midLng = resultObject.longitude;
+  var midLat = resultObject.midInfo.latitude; // 에러
+  var midLng = resultObject.midInfo.longitude;
   jsonTotalArray.userArr = new Array();
+  jsonTotalArray.midInfo = new Object();
+  console.log(midLat +" , ", midLng);
   var transportInfo = resultObject.transportInfo;
   for (var i = 0; i < transportInfo.length; i++) {
     var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
@@ -59,7 +62,7 @@ app.get('/', function(req, res) {
   jsonTotalArray.midInfo.midLat = midLat;
   jsonTotalArray.midInfo.midLng = midLng;
   jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가
-  res.send(resultObject);
+  res.send(jsonTotalArray);
 })
 
 
@@ -68,18 +71,17 @@ app.get('/', function(req, res) {
 */
 
 app.post('/usersToMid', function(req, res) {
-  var jsonPath = path.join(__dirname, 'algorithm', 'TOMSA');
+  var algoPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
   var reqArray = req.body.userArr;
   var resultObject;
   try {
-    resultObject = exec(jsonPath, [reqArray], {
+    resultObject = exec(algoPath, [reqArray], {
       encoding: "utf8"
     });
   } catch (err) {
     res.send(errorHandlingModule.returnErrMsg("Algorithm Error"));
   }
-  resultObject = JSON.parse(resultObject);
-  var usersToMidArray = usersToMidModule.getInfo(req, resultObject.latitude, resultObject.longitude); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
+  var usersToMidArray = usersToMidModule.getInfo(resultObject); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
 })
 
