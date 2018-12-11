@@ -30,7 +30,7 @@ module.exports.isObjectData = function(obj) {
     return true;
 }
 
-/* 에러 메시지 json형태로 반환
+/* 에러 메시지 클라이언트용 json형태로 반환
  */
 module.exports.returnErrMsg = function(msg) {
   var errorObj = {

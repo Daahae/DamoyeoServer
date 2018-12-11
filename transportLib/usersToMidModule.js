@@ -2,10 +2,13 @@ var transPortInfoModule = require('./transportInfoModule.js');
 var landmarkModule = require('../firebaseLib/landmarkModule.js');
 var transportJsonParseModule = require('./transportJsonParseModule.js');
 var midPosToStringModule = require('../firebaseLib/midPosToStringModule.js');
+var errorHandlingModule = require('../errorHandlingModule.js');
 
-/*입력받은 유저들 좌표에서 중간지점까지의 교통정보 반환
-  + 중간좌표
-  + 랜드마크정보
+
+/* 입력받은 유저들 좌표 인지로 실행한 알고리즘 모듈 결과값 파싱
+   + 경로정보
+   + 중간좌표
+   + 랜드마크정보
  */
 module.exports.getInfo = function(resultObject) {
   var jsonData;
@@ -13,12 +16,15 @@ module.exports.getInfo = function(resultObject) {
   var landmarkObject = new Object();
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
+
+  //if(resultObject=="Algorithm Error")
+  //return errorHandlingModule.returnErrMsg("Algorithm Error");
+
   resultObject = JSON.parse(resultObject);
   var midLat = resultObject.midInfo.latitude;
   var midLng = resultObject.midInfo.longitude;
 
 
-  console.log(midLat +" , ", midLng);
   var transportInfo = resultObject.transportInfo;
   for (var i = 0; i < transportInfo.length; i++) {
     var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱

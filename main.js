@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var errorHandlingModule = require('./errorHandlingModule.js');
+var runAlgorithmModule = require('./runAlgorithmModule.js');
 var transPortInfoModule = require('./transportLib/transportInfoModule.js');
 var usersToMidModule = require('./transportLib/usersToMidModule.js');
 var landmarkModule = require('./firebaseLib/landmarkModule.js');
@@ -29,59 +30,16 @@ app.use(express.static(path.join(__dirname)));
 /* 테스트용 홈
  */
 app.get('/', function(req, res) {
-  var exec = require('child_process').execFileSync;
-  var jsonPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
-
-  var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\":127.073053},\
-  {\"latitude\":37.545036,\"longitude\":127.054245},\
-  {\"latitude\":37.535413,\"longitude\":127.062388},\
-  {\"latitude\":37.531359,\"longitude\":127.083799}]}';
-  var resultObject;
-  try {
-    resultObject = exec(jsonPath, [tmp], {
-      encoding: "utf8"
-    });
-  } catch (err) {
-    err.stdout;
-    console.log(err);
-  }
-
-  resultObject = JSON.parse(resultObject);
-  var jsonTotalArray = new Object();
-  var landmarkObject = new Object();
-  var midLat = resultObject.midInfo.latitude; // 에러
-  var midLng = resultObject.midInfo.longitude;
-  jsonTotalArray.userArr = new Array();
-  jsonTotalArray.midInfo = new Object();
-  console.log(midLat + " , ", midLng);
-  var transportInfo = resultObject.transportInfo;
-  for (var i = 0; i < transportInfo.length; i++) {
-    var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
-    jsonTotalArray.userArr.push(jsonData);
-  }
-  jsonTotalArray.midInfo.midLat = midLat;
-  jsonTotalArray.midInfo.midLng = midLng;
-  jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가
-  res.send(jsonTotalArray);
 })
 
 
 /* 안드로이드에서 유저들좌표를 전송받음(req)
-   유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 전송
-   알고리즘 모듈에서 대중교통 경로정보 가져옴(resultObject)**
+   알고리즘 모듈에서 최적 중간지점과 대중교통 경로정보 가져옴(resultObject)**
+   유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 반환(usersToMidArray)
 */
-
 app.post('/usersToMid', function(req, res) {
   var algoPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
-  var reqArray = req.body.userArr;
-  var resultObject;
-  try {
-    resultObject = exec(algoPath, [reqArray], {
-      encoding: "utf8"
-    });
-  } catch (err) {
-    res.send(errorHandlingModule.returnErrMsg("Algorithm Error"));
-  }
+  var resultObject = runAlgorithmModule.getInfo(req, algoPath);
   var usersToMidArray = usersToMidModule.getInfo(resultObject);
   res.send(usersToMidArray);
 })
@@ -110,6 +68,7 @@ app.post('/midDetailCategory', function(req, res) {
   var midDetailCategoryObject = nearBySearchDetailModule.getDetailInfo(req);
   res.send(midDetailCategoryObject);
 })
+
 
 
 app.listen(3443, function() {
