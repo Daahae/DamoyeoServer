@@ -14,7 +14,7 @@ module.exports.getInfo = function(resultObject) {
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
   resultObject = JSON.parse(resultObject);
-  var midLat = resultObject.midInfo.latitude; // 에러
+  var midLat = resultObject.midInfo.latitude;
   var midLng = resultObject.midInfo.longitude;
 
 
@@ -24,6 +24,8 @@ module.exports.getInfo = function(resultObject) {
     var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
     jsonTotalArray.userArr.push(jsonData);
   }
+  landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLng); // 중심좌표 근처의 랜드마크
+  jsonTotalArray.landmark = landmarkObject;
   jsonTotalArray.midInfo.midLat = midLat;
   jsonTotalArray.midInfo.midLng = midLng;
   jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가

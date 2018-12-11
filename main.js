@@ -14,7 +14,7 @@ var exec = require('child_process').execFileSync;
 var path = require('path');
 
 /* 중간지점 전역변수선언 (명동) 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
- 알고리즘으로 얻어낼 시 지역변수로 바꿈
+  알고리즘으로 얻어낼 시 지역변수로 바꿈
 */
 var midInfo = new Array(37.5637399, 126.9838655);
 app.use(bodyParser.urlencoded({
@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
   var midLng = resultObject.midInfo.longitude;
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
-  console.log(midLat +" , ", midLng);
+  console.log(midLat + " , ", midLng);
   var transportInfo = resultObject.transportInfo;
   for (var i = 0; i < transportInfo.length; i++) {
     var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
@@ -68,6 +68,7 @@ app.get('/', function(req, res) {
 
 /* 안드로이드에서 유저들좌표를 전송받음(req)
    유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 전송
+   알고리즘 모듈에서 대중교통 경로정보 가져옴(resultObject)**
 */
 
 app.post('/usersToMid', function(req, res) {
@@ -81,7 +82,7 @@ app.post('/usersToMid', function(req, res) {
   } catch (err) {
     res.send(errorHandlingModule.returnErrMsg("Algorithm Error"));
   }
-  var usersToMidArray = usersToMidModule.getInfo(resultObject); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
+  var usersToMidArray = usersToMidModule.getInfo(resultObject);
   res.send(usersToMidArray);
 })
 
