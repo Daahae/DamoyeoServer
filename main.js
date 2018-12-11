@@ -38,7 +38,7 @@ app.get('/', function(req, res) {
    유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 반환(usersToMidArray)
 */
 app.post('/usersToMid', function(req, res) {
-  var algoPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
+  var algoPath = path.join(__dirname, 'algorithm', 'ALGORITHM'); // 알고리즘 파일의 절대경로
   var resultObject = runAlgorithmModule.getInfo(req, algoPath);
   var usersToMidArray = usersToMidModule.getInfo(resultObject);
   res.send(usersToMidArray);
