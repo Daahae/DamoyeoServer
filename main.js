@@ -17,7 +17,7 @@ var path = require('path');
 /* 중간지점 전역변수선언 (명동) 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
   알고리즘으로 얻어낼 시 지역변수로 바꿈
 */
-var midInfo = new Array(37.5637399, 126.9838655);
+//var midInfo = new Array(37.5637399, 126.9838655);
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -30,6 +30,13 @@ app.use(express.static(path.join(__dirname)));
 /* 테스트용 홈
  */
 app.get('/', function(req, res) {
+  var jsonData;
+  var landmarkObject = new Object();
+  var testMidInfo = new Array(37.2839068, 126.9722112);
+  jsonData = transPortInfoModule.getInfo(37.2839068, 126.9722112, 37.5502596, 127.073139);
+  landmarkObject = landmarkModule.getLandmarkByPosition(testMidInfo[0], testMidInfo[1]);
+  jsonData.landmark = landmarkObject;
+  res.send(jsonData);
 })
 
 
