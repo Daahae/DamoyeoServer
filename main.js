@@ -17,7 +17,7 @@ var path = require('path');
 /* 중간지점 전역변수선언 (명동) 알고리즘을 통해 얻어낼 좌표, 현제는 샘플좌표, 전역변수 선언
   알고리즘으로 얻어낼 시 지역변수로 바꿈
 */
-//var midInfo = new Array(37.5637399, 126.9838655);
+var midInfo = new Array(37.5637399, 126.9838655);
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -39,15 +39,39 @@ app.get('/', function(req, res) {
   res.send(jsonData);
 })
 
+/* 알고테스트.
+ */
+app.get('/test', function(req, res) {
+  var exec = require('child_process').execFileSync;
+  var jsonPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
+
+  var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\":127.073053},\
+  {\"latitude\":37.545036,\"longitude\":127.054245},\
+  {\"latitude\":37.535413,\"longitude\":127.062388},\
+  {\"latitude\":37.531359,\"longitude\":127.083799}]}';
+  var resultObject;
+  try {
+    resultObject = exec(jsonPath, [tmp], {
+      encoding: "utf8"
+    });
+
+  } catch (err) {
+    err.stdout;
+    console.log(err);
+  }
+  console.log(resultObject);
+  res.send(resultObject);
+})
+
+
 
 /* 안드로이드에서 유저들좌표를 전송받음(req)
    알고리즘 모듈에서 최적 중간지점과 대중교통 경로정보 가져옴(resultObject)**
    유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 반환(usersToMidArray)
 */
 app.post('/usersToMid', function(req, res) {
-  var algoPath = path.join(__dirname, 'algorithm', 'ALGORITHM'); // 알고리즘 파일의 절대경로
-  var resultObject = runAlgorithmModule.getInfo(req, algoPath);
-  var usersToMidArray = usersToMidModule.getInfo(resultObject);
+  console.log("asdasdasdd왜안돼");
+  var usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
 })
 
@@ -55,6 +79,7 @@ app.post('/usersToMid', function(req, res) {
    랜드마크를 목적지로 함
 */
 app.post('/midTransportInfo', function(req, res) {
+  console.log("asdasdasdd뭐지;");
   var usersToMidArray = usersToMidModule.getTransportInfo(req);
   res.send(usersToMidArray);
 })

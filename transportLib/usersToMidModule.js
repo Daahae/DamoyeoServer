@@ -10,32 +10,30 @@ var errorHandlingModule = require('../errorHandlingModule.js');
    + 중간좌표
    + 랜드마크정보
  */
-module.exports.getInfo = function(resultObject) {
+module.exports.getInfo = function(req, midLat, midLng) {
   var jsonData;
   var jsonTotalArray = new Object();
   var landmarkObject = new Object();
   jsonTotalArray.userArr = new Array();
   jsonTotalArray.midInfo = new Object();
+  var reqArray = new Array();
+  reqArray = JSON.parse(req.body.userArr);
+  console.log("asdasd");
 
-  //if(resultObject=="Algorithm Error")
-  //return errorHandlingModule.returnErrMsg("Algorithm Error");
-
-  resultObject = JSON.parse(resultObject);
-  var midLat = resultObject.midInfo.latitude;
-  var midLng = resultObject.midInfo.longitude;
-
-
-  var transportInfo = resultObject.transportInfo;
-  for (var i = 0; i < transportInfo.length; i++) {
-    var jsonData = transportJsonParseModule.getJsonData(transportInfo[i]); // 요청받은 데이터 파싱
+  for (var i = 0; i < reqArray.length; i++) {
+    var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
+  //  console.log("start : "+start[0] +" , "+start[1]);
+    jsonData = transPortInfoModule.getInfo(start[0], start[1], midLat, midLng);
+  //  console.log("??????"+jsonData.userArr);
     jsonTotalArray.userArr.push(jsonData);
   }
+
+
   landmarkObject = landmarkModule.getLandmarkByPosition(midLat, midLng); // 중심좌표 근처의 랜드마크
   jsonTotalArray.landmark = landmarkObject;
   jsonTotalArray.midInfo.midLat = midLat;
   jsonTotalArray.midInfo.midLng = midLng;
   jsonTotalArray.midInfo.address = midPosToStringModule.getStringPos(midLat, midLng).result.items[0].address; //string 주소 추가
-
   return jsonTotalArray;
 }
 

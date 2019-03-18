@@ -12,5 +12,7 @@ module.exports.getData = function(start, end) {
   if(!errorHandlingModule.isRequestData(obj))
     return;
 
+  console.log("obj : "+obj);
+
   return obj;
 }
