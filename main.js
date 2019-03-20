@@ -70,7 +70,6 @@ app.get('/test', function(req, res) {
    유저들좌표에서 중앙지점까지의 교통정보, 랜드마크 정보 반환(usersToMidArray)
 */
 app.post('/usersToMid', function(req, res) {
-  console.log("asdasdasdd왜안돼");
   var usersToMidArray = usersToMidModule.getInfo(req, midInfo[0], midInfo[1]); // 안드로이드에서 넘겨준 users 정보와 함께 모듈 실행
   res.send(usersToMidArray);
 })
@@ -79,7 +78,6 @@ app.post('/usersToMid', function(req, res) {
    랜드마크를 목적지로 함
 */
 app.post('/midTransportInfo', function(req, res) {
-  console.log("asdasdasdd뭐지;");
   var usersToMidArray = usersToMidModule.getTransportInfo(req);
   res.send(usersToMidArray);
 })

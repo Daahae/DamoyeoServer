@@ -18,13 +18,12 @@ module.exports.getInfo = function(req, midLat, midLng) {
   jsonTotalArray.midInfo = new Object();
   var reqArray = new Array();
   reqArray = JSON.parse(req.body.userArr);
-  console.log("asdasd");
+  reqArray = reqArray.userArr;
+
 
   for (var i = 0; i < reqArray.length; i++) {
     var start = new Array(reqArray[i].latitude, reqArray[i].longitude); // 유저 좌표
-  //  console.log("start : "+start[0] +" , "+start[1]);
     jsonData = transPortInfoModule.getInfo(start[0], start[1], midLat, midLng);
-  //  console.log("??????"+jsonData.userArr);
     jsonTotalArray.userArr.push(jsonData);
   }
 
