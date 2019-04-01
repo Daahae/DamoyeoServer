@@ -63,7 +63,15 @@ app.get('/test', function(req, res) {
   res.send(resultObject);
 })
 
+/* 로그인 시 이메일 저장
+  이전 접속 기록이 있을시 매핑?
+*/
+app.post('/login', function(req, res) {
+  var reqArray = new Array();
+  reqArray = JSON.parse(req.body.userLoginInfo);
+  console.log(reqArray);
 
+})
 
 /* 안드로이드에서 유저들좌표를 전송받음(req)
    알고리즘 모듈에서 최적 중간지점과 대중교통 경로정보 가져옴(resultObject)**

@@ -8,6 +8,7 @@ module.exports.getJsonData = function(obj) {
   var trafficJsonArray = new Array();
   var path = new Array();
   var subPathArr = new Array();
+  var subInfoObj = new Object();
 
   var lane = new Array();
   var totalTime = 0;
@@ -15,15 +16,22 @@ module.exports.getJsonData = function(obj) {
   var timeByBus = 0;
   var timeByWalk = 0;
   var subwayCityCode;
+  var payment;
 
   obj = obj.result;
   path = obj.path;
+
   subPathArr = path[0].subPath; // 최단시간의 정보
+  subInfoObj = path[0].info;
+  payment = subInfoObj.payment;
+
   for (var i = 0; i < subPathArr.length; i++) {
     var trafficJsonObject = new Object();
     var startStation = null;
     var endStation = null;
     var transportNumber = null;
+    var busType = null
+    var subwayCode = null
     var trafficType = subPathArr[i].trafficType;
     var sectionTime = subPathArr[i].sectionTime;
 
@@ -34,11 +42,13 @@ module.exports.getJsonData = function(obj) {
       if (trafficTypeModule.subwayType(trafficType)) { // 지하철 이용 시 호선 리턴
         laneArr = subPathArr[i].lane;
         transportNumber = laneArr[0].name;
+        subwayCode = laneArr[0].subwayCode;
         timeBySubway += sectionTime;
 
       } else { // 버스 이용 시 버스번호 리턴
         laneArr = subPathArr[i].lane;
         transportNumber = laneArr[0].busNo;
+        busType = laneArr[0].type;
         timeByBus += sectionTime;
       }
 
@@ -46,6 +56,8 @@ module.exports.getJsonData = function(obj) {
       timeByWalk += sectionTime;
     }
 
+    trafficJsonObject.subwayCode = subwayCode;
+    trafficJsonObject.busType = busType;
     trafficJsonObject.trafficType = trafficType;
     trafficJsonObject.sectionTime = sectionTime;
     trafficJsonObject.transportNumber = transportNumber;
@@ -57,6 +69,7 @@ module.exports.getJsonData = function(obj) {
   }
 
   totalJsonObject.subPathArr = trafficJsonArray;
+  totalJsonObject.payment = payment;
   totalJsonObject.timeBySubway = timeBySubway;
   totalJsonObject.timeByBus = timeByBus;
   totalJsonObject.timeByWalk = timeByWalk;
