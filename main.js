@@ -58,7 +58,7 @@ app.get('/test', function(req, res) {
   } catch (err) {
     err.stdout;
     console.log(err);
-  }
+  }-
   console.log(resultObject);
   res.send(resultObject);
 })
