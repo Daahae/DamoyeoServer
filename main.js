@@ -45,7 +45,8 @@ app.get('/test', function(req, res) {
   var exec = require('child_process').execFileSync;
   var jsonPath = path.join(__dirname, 'algorithm', 'ALGORITHM');
 
-  var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\":127.073053},\
+  var tmp = '{\"userArr\":[{\"latitude\":37.550277,\"longitude\
+  ":127.073053},\
   {\"latitude\":37.545036,\"longitude\":127.054245},\
   {\"latitude\":37.535413,\"longitude\":127.062388},\
   {\"latitude\":37.531359,\"longitude\":127.083799}]}';
@@ -53,6 +54,7 @@ app.get('/test', function(req, res) {
   try {
     resultObject = exec(jsonPath, [tmp], {
       encoding: "utf8"
+      console.log("Algorithm error");
     });
 
   } catch (err) {
@@ -70,7 +72,6 @@ app.post('/login', function(req, res) {
   var reqArray = new Array();
   reqArray = JSON.parse(req.body.userLoginInfo);
   console.log(reqArray);
-
 })
 
 /* 안드로이드에서 유저들좌표를 전송받음(req)
